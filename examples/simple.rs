@@ -17,8 +17,10 @@ fn startup(
             material: white,
             ..Default::default()
         })
-        .insert(PrevPos(Vec2::ZERO - Vec2::new(2.0, 0.) * DELTA_TIME))
-        .insert(Pos(Vec2::ZERO));
+        .insert(ParticleBundle::new_with_pos_and_vel(
+            Vec2::ZERO, 
+            Vec2::new(2., 0.),
+        ));
 
     commands.spawn((
         Camera3dBundle {
@@ -38,7 +40,6 @@ fn main() {
         .insert_resource(Msaa::Sample4)
         .add_plugins(DefaultPlugins)
         .add_systems(Startup, startup)
-        .add_systems(Update, stimulate)
-        .add_systems(Update, sync_transformer)
+        .add_plugins(BasePlugin::default())
         .run();
 }
